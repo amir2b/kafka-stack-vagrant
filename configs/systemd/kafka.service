@@ -1,0 +1,24 @@
+[Unit]
+Description=Apache Kafka
+Documentation=https://kafka.apache.org
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+User=kafka
+Group=kafka
+Environment="LOG_DIR=/var/log/kafka"
+Environment="KAFKA_HEAP_OPTS=-Xmx1G -Xms1G"
+# Environment="KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=10030 -Dcom.sun.management.jmxremote.rmi.port=12346 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false" 
+# Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka/config/kafka-jaas.conf -Djava.security.krb5.conf=/etc/krb5.conf"
+Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka/config/kafka-jaas.conf"
+WorkingDirectory=/opt/kafka/
+ExecStart=/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/kraft/server.properties
+ExecStop=/opt/kafka/bin/kafka-server-stop.sh
+SuccessExitStatus=143
+Restart=on-failure
+TimeoutSec=30
+
+[Install]
+WantedBy=multi-user.target
