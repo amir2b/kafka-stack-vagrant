@@ -1,0 +1,25 @@
+auth:
+  type: LOGIN_FORM
+kafka:
+  clusters:
+  - name: kafka
+    readOnly: false
+    bootstrapServers: 192.168.56.11:9092
+    properties:
+      security.protocol: SASL_PLAINTEXT
+      sasl.mechanism: PLAIN
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="user" password="password";
+    kafkaConnect:
+    - name: kc
+      address: http://192.168.56.11:8083
+    # schemaRegistry: http://localhost:8085
+    # schemaRegistryAuth:
+    #   username: user
+    #   password: password
+    # schemaNameTemplate: "%s-value"
+    # metrics:
+    #   port: 9997
+    #   type: JMX
+rbac:
+  roles: []
+webclient: {}

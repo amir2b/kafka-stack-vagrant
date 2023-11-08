@@ -27,7 +27,7 @@ fi
 
 ## Copy kafka to /opt/
 sudo tar -xzf "$INSTALATION_PATH/cache/kafka_2.13-${KAFKA_VERSION}.tgz" -C /opt/
-sudo ln -s "/opt/kafka_2.13-${KAFKA_VERSION}" /opt/kafka
+sudo ln -s "kafka_2.13-${KAFKA_VERSION}" /opt/kafka
 # sudo chown root:root /opt/kafka/ -R
 
 ## Create lib and log directory

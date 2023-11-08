@@ -34,7 +34,14 @@ Vagrant.configure("2") do |config|
         "KAFKA_ID" => i,
         "KAFKA_CONTROLLER" => ENV['KAFKA_CONTROLLER'],
       }
-      
+
+      if "#{ENV['KAFKA_UI_ENABLE']}".downcase == 'true' then
+        config.vm.provision "shell", path: "scripts/docker.sh"
+        config.vm.provision "shell", path: "scripts/kafka-ui.sh", env: {
+          "KAFKA_BOOTSTRAPSERVERS" => ENV['KAFKA_BOOTSTRAPSERVERS'],
+        }
+      end
+
       if "#{ENV['CONNECT_ENABLE']}".downcase == 'true' then
         config.vm.provision "shell", path: "scripts/kafka-connect.sh", env: {
           "IP" => "#{ENV['NODE_PREFIX_IP']}#{i}",

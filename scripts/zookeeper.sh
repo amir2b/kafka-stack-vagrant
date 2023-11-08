@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 ## Environments
-# ZOOKEEPER_VERSION=3.9.0
-# ZOOKEEPER_ID=1
+ZOOKEEPER_VERSION=${ZOOKEEPER_VERSION:-3.9.0}
+ZOOKEEPER_ID=${ZOOKEEPER_ID:-1}
 
 export DEBIAN_FRONTEND=noninteractive
 
