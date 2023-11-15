@@ -9,6 +9,9 @@ export DEBIAN_FRONTEND=noninteractive
 
 set -e
 
+## Add Shecan
+sudo sed -i "1inameserver 178.22.122.100" /etc/resolv.conf
+
 # Add Docker's official GPG key:
 # sudo apt-get update
 sudo apt-get install -y ca-certificates curl gnupg
@@ -24,6 +27,9 @@ echo \
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+## Remove Shecan
+sudo sed -i '1d' /etc/resolv.conf
+
 # Add the registry-mirrors:
-echo -e '{\n\t"registry-mirrors": ["https://docker.iranserver.com", "https://docker.host:5000"]\n}' | sudo tee /etc/docker/daemon.json
-systemctl restart docker
+echo -e '{\n\t"registry-mirrors": ["https://registry.docker.ir", "https://docker.arvancloud.com", "https://docker.iranrepo.ir", "https://dockerhub.ir", "https://m.docker-registry.ir", "https://docker.iranserver.com"]\n}' | sudo tee /etc/docker/daemon.json
+sudo systemctl restart docker

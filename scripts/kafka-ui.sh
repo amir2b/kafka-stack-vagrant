@@ -2,6 +2,9 @@
 
 ## Environments
 INSTALATION_PATH="/vagrant"
+KAFKA_UI_VERSION=${KAFKA_UI_VERSION:-latest}
+KAFKA_ui_USERNAME=${KAFKA_ui_USERNAME:-user}
+KAFKA_ui_PASSWORD=${KAFKA_ui_PASSWORD:-password}
 
 set -e
 
@@ -12,9 +15,16 @@ sudo chown 100:101 /opt/kafka-ui/data/ -R
 
 {
     echo "## KAFKA_UI"
-    echo "KAFKA_UI_VERSION=latest"
-    echo "KAFKA_ui_USERNAME=user"
-    echo "KAFKA_ui_PASSWORD=password"
+    echo "KAFKA_UI_VERSION=${KAFKA_UI_VERSION}"
+    echo "KAFKA_ui_USERNAME=${KAFKA_ui_USERNAME}"
+    echo "KAFKA_ui_PASSWORD=${KAFKA_ui_PASSWORD}"
 } | sudo tee /opt/kafka-ui/.env
 
+## Load docker image from cache
+[ -f $INSTALATION_PATH/cache/kafka-ui.tgz ] && sudo docker load --input $INSTALATION_PATH/cache/kafka-ui.tgz || true
+
+## Launch kafka-ui
 sudo docker compose --project-directory /opt/kafka-ui/ up --detach
+
+## Export docker image to cache
+[ ! -f $INSTALATION_PATH/cache/kafka-ui.tgz ] && sudo docker save provectuslabs/kafka-ui | gzip > $INSTALATION_PATH/cache/kafka-ui.tgz || true

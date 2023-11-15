@@ -9,6 +9,7 @@ kafka:
       security.protocol: SASL_PLAINTEXT
       sasl.mechanism: PLAIN
       sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="user" password="password";
+    ksqldbServer: http://192.168.56.11:8088
     kafkaConnect:
     - name: kc
       address: http://192.168.56.11:8083
