@@ -10,8 +10,7 @@ User=kafka
 Group=kafka
 Environment="LOG_DIR=/var/log/kafka"
 # Environment="KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=10040 -Dcom.sun.management.jmxremote.local.only=true -Dcom.sun.management.jmxremote.authenticate=false"
-# Uncomment the following line to enable authentication for the kafka connect
-# Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/kafka_connect_jaas.conf"
+# Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/kafka-jaas.conf"
 ExecStart=/opt/kafka/bin/connect-distributed.sh /opt/kafka/config/connect-distributed.properties
 Restart=on-failure
 TimeoutSec=30
