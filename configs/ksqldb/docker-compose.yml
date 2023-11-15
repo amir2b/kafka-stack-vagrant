@@ -1,0 +1,38 @@
+version: '3'
+
+x-base: &base
+  restart: unless-stopped
+  logging:
+    options:
+      max-size: "1m"
+      max-file: "10"
+
+services:
+  ksqldb-server:
+    <<: *base
+    image: confluentinc/ksqldb-server:${KSQLDB_VERSION:-latest}
+    container_name: ksqldb-server
+    hostname: ksqldb-server
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS}
+      KSQL_SECURITY_PROTOCOL: ${KAFKA_SECURITY_PROTOCOL:-SASL_PLAINTEXT}
+      KSQL_SASL_MECHANISM: ${KAFKA_SASL_MECHANISM:-PLAIN}
+      KSQL_SASL_JAAS_CONFIG: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_USERNAME}" password="${KAFKA_PASSWORD}";'
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+    healthcheck:
+      test: curl -f http://localhost:8088/healthcheck || exit 1
+
+  ksqldb-cli:
+    <<: *base
+    image: confluentinc/ksqldb-cli:${KSQLDB_VERSION:-latest}
+    container_name: ksqldb-cli
+    hostname: ksqldb-cli
+    depends_on:
+      ksqldb-server:
+        condition: service_healthy
+    entrypoint: /bin/sh
+    tty: true
