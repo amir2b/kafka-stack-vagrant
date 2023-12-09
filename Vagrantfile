@@ -29,8 +29,6 @@ Vagrant.configure("2") do |config|
       # kafka
       config.vm.provision "shell", path: "scripts/kafka.sh", env: {
         "IP" => "#{ENV['NODE_PREFIX_IP']}#{i}",
-        "NODE_COUNT" => ENV['NODE_COUNT'],
-        "NODE_PREFIX_IP" => ENV['NODE_PREFIX_IP'],
         "KAFKA_VERSION" => ENV['KAFKA_VERSION'],
         "KAFKA_ID" => i,
         "KAFKA_CONTROLLER" => ENV['KAFKA_CONTROLLER'],

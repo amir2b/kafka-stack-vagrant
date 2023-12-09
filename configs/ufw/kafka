@@ -1,12 +1,12 @@
 [kafka]
 title=Apache Kafka
 description=Apache Kafka is an open-source distributed event streaming platform used by thousands of companies for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.
-ports=9092/tcp
+ports=9092,9093/tcp
 
-[kafka-controller]
-title=Apache Kafka - Controller
-description=Apache Kafka is an open-source distributed event streaming platform used by thousands of companies for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.
-ports=9093/tcp
+[kafka-jmx]
+title=Apache Kafka - JMX
+description=Java Management Extensions (JMX) is a Java technology that supplies tools for managing and monitoring applications, system objects, devices (such as printers) and service-oriented networks.
+ports=9099/tcp
 
 [kafka-connect]
 title=Apache Kafka-Connect

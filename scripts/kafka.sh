@@ -6,8 +6,6 @@ KAFKA_VERSION=${KAFKA_VERSION:-3.6.0}
 KAFKA_ID=${KAFKA_ID:-1}
 KAFKA_CONTROLLER=${KAFKA_CONTROLLER:-1@192.168.56.11:9093}
 IP=${IP:-192.168.56.11}
-NODE_PREFIX_IP=${NODE_PREFIX_IP:-192.168.56.1}
-NODE_COUNT=${NODE_COUNT:-1}
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -73,17 +71,17 @@ sudo -u kafka /opt/kafka/bin/kafka-storage.sh format -t $(cat /opt/kafka/config/
 ## Firewall
 sudo cp "$INSTALATION_PATH/configs/ufw/kafka" /etc/ufw/applications.d/
 sudo ufw allow kafka
-for i in $(seq $NODE_COUNT); do
-    sudo ufw allow from $NODE_PREFIX_IP$i to any app kafka-controller
-done
+sudo ufw allow kafka-jmx
 
 # sudo firewall-cmd --permanent --add-port=9092/tcp
 # sudo firewall-cmd --permanent --add-port=9093/tcp
+# sudo firewall-cmd --permanent --add-port=9099/tcp
 # sudo firewall-cmd --reload
 # sudo firewall-cmd --list-all
 
 ## systemd
 sudo cp "$INSTALATION_PATH/configs/systemd/kafka.service" /lib/systemd/system/
+sudo sed -i "s/127\.0\.0\.1/$IP/" /lib/systemd/system/kafka.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now kafka
 # sudo systemctl status kafka
