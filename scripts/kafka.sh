@@ -50,8 +50,8 @@ sudo sed -Ei "s/^#(log\.retention\.bytes)=.*/\1=10737418240/" /opt/kafka/config/
     echo
     # https://docs.confluent.io/platform/current/kafka/authorization.html
     echo "authorizer.class.name=org.apache.kafka.metadata.authorizer.StandardAuthorizer"
-    # echo "allow.everyone.if.no.acl.found=false"
     echo "super.users=User:admin"
+    # echo "allow.everyone.if.no.acl.found=false"
     echo
     # https://developer.ibm.com/articles/benefits-compression-kafka-messaging/
     echo "compression.type=gzip"
@@ -68,14 +68,26 @@ fi
 cp "$INSTALATION_PATH/cache/kafka-uuid" /opt/kafka/config/kraft/uuid
 sudo -u kafka /opt/kafka/bin/kafka-storage.sh format -t $(cat /opt/kafka/config/kraft/uuid) -c /opt/kafka/config/kraft/server.properties
 
+## Download jmx_prometheus if not exists
+if [ ! -f "$INSTALATION_PATH/cache/jmx_prometheus_javaagent-0.20.0.jar" ]; then
+    wget https://repo.maven.apache.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar -P "$INSTALATION_PATH/cache/"
+fi
+
+## Copy jmx_prometheus to /opt/kafka/libs
+sudo cp "$INSTALATION_PATH/cache/jmx_prometheus_javaagent-0.20.0.jar" /opt/kafka/libs/
+sudo cp "$INSTALATION_PATH/configs/kafka-jmx-exporter.yml" /opt/kafka/config/
+# sudo cp "$INSTALATION_PATH/configs/kafka-jmx-exporter2.yml" /opt/kafka/config/
+
 ## Firewall
 sudo cp "$INSTALATION_PATH/configs/ufw/kafka" /etc/ufw/applications.d/
 sudo ufw allow kafka
-sudo ufw allow kafka-jmx
+sudo ufw allow kafka-prometheus
+# sudo ufw allow kafka-jmx
 
 # sudo firewall-cmd --permanent --add-port=9092/tcp
 # sudo firewall-cmd --permanent --add-port=9093/tcp
-# sudo firewall-cmd --permanent --add-port=9099/tcp
+# sudo firewall-cmd --permanent --add-port=7071/tcp
+# # sudo firewall-cmd --permanent --add-port=9099/tcp
 # sudo firewall-cmd --reload
 # sudo firewall-cmd --list-all
 

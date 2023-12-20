@@ -11,9 +11,8 @@ Group=kafka
 Environment="LOG_DIR=/var/log/kafka"
 Environment="KAFKA_HEAP_OPTS=-Xmx1G -Xms1G"
 Environment="JMX_PORT=9099"
-Environment="KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1"
-Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka/config/kafka-jaas.conf"
-# Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka/config/kafka-jaas.conf -Djava.security.krb5.conf=/etc/krb5.conf"
+Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka/config/kafka-jaas.conf -javaagent:/opt/kafka/libs/jmx_prometheus_javaagent-0.20.0.jar=7071:/opt/kafka/config/kafka-jmx-exporter.yml"
+# Environment="KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1"
 WorkingDirectory=/opt/kafka/
 ExecStart=/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/kraft/server.properties
 ExecStop=/opt/kafka/bin/kafka-server-stop.sh

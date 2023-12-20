@@ -10,8 +10,10 @@ kafka:
       sasl.mechanism: PLAIN
       sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="user" password="password";
     metrics:
-      port: 9099
-      type: JMX
+      port: 7071
+      type: PROMETHEUS
+      # port: 9099
+      # type: JMX
     kafkaConnect:
     - name: kc
       address: http://192.168.56.11:8083

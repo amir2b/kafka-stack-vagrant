@@ -25,3 +25,4 @@ make up
 * https://developer.ibm.com/tutorials/kafka-authn-authz/
 * https://docs.confluent.io/platform/current/kafka/incremental-security-upgrade.html
 * https://docs.confluent.io/platform/current/kafka/authentication_sasl/authentication_sasl_gssapi.html#jaas-config
+* https://www.metricfire.com/blog/kafka-monitoring/
