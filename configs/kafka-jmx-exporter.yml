@@ -1,6 +1,13 @@
 # https://github.com/prometheus/jmx_exporter/blob/main/example_configs/kafka-0-8-2.yml
 
+httpServer:
+  authentication:
+    basic:
+      username: user
+      password: password
+
 lowercaseOutputName: true
+
 rules:
 - pattern : kafka.cluster<type=(.+), name=(.+), topic=(.+), partition=(.+)><>Value
   name: kafka_cluster_$1_$2

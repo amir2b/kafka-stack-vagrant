@@ -1,5 +1,11 @@
 # https://github.com/prometheus/jmx_exporter/blob/main/example_configs/kafka-2_0_0.yml
 
+httpServer:
+  authentication:
+    basic:
+      username: user
+      password: password
+      
 lowercaseOutputName: true
 
 rules:
